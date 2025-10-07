@@ -29,6 +29,8 @@ public class OrderPage {
     private final By orderButton = By.xpath("//button[text()='Заказать']");
     private final By confirmButton = By.xpath("//button[text()='Да']");
     private final By successModal = By.xpath("//div[contains(@class, 'Order_ModalHeader')]");
+    private final By successModalText = By.xpath("//div[contains(@class, 'Order_ModalHeader__3FDaJ') and text()='Заказ оформлен']");
+
 
     public OrderPage(WebDriver driver) {
         this.driver = driver;
@@ -109,10 +111,12 @@ public class OrderPage {
 
     public boolean isOrderSuccess() {
         try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(successModal));
-            return driver.findElement(successModal).isDisplayed();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(successModalText));
+            WebElement modalText = driver.findElement(successModalText);
+
+            return modalText.isDisplayed() && modalText.getText().equals("Заказ оформлен");
         } catch (Exception e) {
-            System.out.println("Модальное окно успеха не появилось: " + e.getMessage());
+            System.out.println("Модальное окно успеха не появилось или текст не соответствует ожидаемому: " + e.getMessage());
             return false;
         }
     }

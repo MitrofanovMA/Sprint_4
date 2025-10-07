@@ -1,48 +1,51 @@
 import org.example.MainPage;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import java.util.Arrays;
+import java.util.Collection;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(Parameterized.class)
 public class FaqTest extends BaseTest {
 
+    private final int questionNumber;
+
+    public FaqTest(int questionNumber) {
+        this.questionNumber = questionNumber;
+    }
+
+    @Parameterized.Parameters
+    public static Collection<Object[]> data() {
+
+        return Arrays.asList(new Object[][]{
+                {0},
+                {1},
+                {2},
+                {3},
+                {4},
+                {5},
+                {6},
+                {7}
+        });
+    }
+
     @Test
-    public void testFaqSection() {
+    public void testFaqQuestion() {
         MainPage mainPage = new MainPage(driver);
         mainPage.open();
         mainPage.acceptCookies();
 
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        System.out.println("Тестируем вопрос №" + (questionNumber + 1));
 
+        mainPage.clickFaqQuestion(questionNumber);
 
-        int questionsCount = mainPage.getFaqQuestionsCount();
-        System.out.println("Найдено вопросов: " + questionsCount);
+        boolean isDisplayed = mainPage.isFaqAnswerDisplayed(questionNumber);
+        assertTrue("Ответ на вопрос " + (questionNumber + 1) + " не отображается", isDisplayed);
 
-
-        for (int i = 0; i < questionsCount && i < 8; i++) {
-            System.out.println("Тестируем вопрос №" + (i + 1));
-
-
-            mainPage.clickFaqQuestion(i);
-
-
-            boolean isDisplayed = mainPage.isFaqAnswerDisplayed(i);
-            assertTrue("Ответ на вопрос " + (i + 1) + " не отображается", isDisplayed);
-
-
-            String answerText = mainPage.getFaqAnswerText(i);
-            System.out.println("Вопрос " + (i + 1) + " ответ: " +
-                    (answerText.length() > 50 ? answerText.substring(0, 50) + "..." : answerText));
-
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
+        String answerText = mainPage.getFaqAnswerText(questionNumber);
+        System.out.println("Вопрос " + (questionNumber + 1) + " ответ: " +
+                (answerText.length() > 50 ? answerText.substring(0, 50) + "..." : answerText));
     }
 }

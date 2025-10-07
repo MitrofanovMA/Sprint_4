@@ -31,7 +31,9 @@ public class MainPage {
     }
 
     public void open() {
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        //URL сервиса
+        String url = "https://qa-scooter.praktikum-services.ru/";
+        driver.get(url);
     }
 
     public void acceptCookies() {
@@ -73,11 +75,7 @@ public class MainPage {
             wait.until(ExpectedConditions.elementToBeClickable(question));
             question.click();
             // Ждем анимацию
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            wait.until(ExpectedConditions.visibilityOf(question));
         }
     }
 
@@ -101,9 +99,5 @@ public class MainPage {
             }
         }
         return false;
-    }
-
-    public int getFaqQuestionsCount() {
-        return driver.findElements(faqQuestions).size();
     }
 }

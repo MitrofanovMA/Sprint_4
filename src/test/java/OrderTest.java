@@ -72,13 +72,6 @@ public class OrderTest extends BaseTest {
         mainPage.open();
         mainPage.acceptCookies();
 
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-
         // Выбор точки входа
         if ("top".equals(entryPoint)) {
             System.out.println("Используем верхнюю кнопку заказа");
@@ -102,10 +95,5 @@ public class OrderTest extends BaseTest {
         assertTrue("Заказ не был успешно создан", isSuccess);
 
 
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
     }
 }
