@@ -45,6 +45,13 @@ public class FaqTest extends BaseTest {
         assertTrue("Ответ на вопрос " + (questionNumber + 1) + " не отображается", isDisplayed);
 
         String answerText = mainPage.getFaqAnswerText(questionNumber);
+
+        assertTrue("Текст ответа на вопрос " + (questionNumber + 1) + " пустой",
+                !answerText.isEmpty());
+
+        assertTrue("Текст ответа на вопрос " + (questionNumber + 1) + " слишком короткий",
+                answerText.length() > 10);
+
         System.out.println("Вопрос " + (questionNumber + 1) + " ответ: " +
                 (answerText.length() > 50 ? answerText.substring(0, 50) + "..." : answerText));
     }
